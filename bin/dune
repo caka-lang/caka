@@ -1,0 +1,13 @@
+(executable
+ (public_name caka)
+ (name main)
+ (libraries cmdliner fmt linol linol-lwt lsp caka_parser)
+ (foreign_archives cakabackend)
+ (link_flags
+  :standard
+  -cclib
+  -lprotobuf-c
+  -cclib
+  -L/usr/lib/llvm18/lib
+  -cclib
+  -lLLVM-18))

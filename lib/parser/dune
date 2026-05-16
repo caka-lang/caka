@@ -1,0 +1,39 @@
+(include_subdirs qualified)
+
+(library
+ (name caka_parser)
+ (libraries
+  menhirLib
+  ppx_deriving.show
+  ppx_deriving.eq
+  alcotest
+  ocaml-protoc-plugin)
+ (preprocess
+  (pps sedlex.ppx ppx_deriving.show ppx_deriving.eq)))
+
+(menhir
+ (infer true)
+ (modules parser)
+ (flags --dump))
+
+(rule
+ (targets google_include)
+ (action
+  (with-stdout-to
+   %{targets}
+   (system "pkg-config protobuf --variable=includedir"))))
+
+(rule
+ (targets ast.ml)
+ (deps
+  (:proto ../ast.proto))
+ (action
+  (run
+   protoc
+   -I
+   %{read-lines:google_include}
+   -I
+   ..
+   "--ocaml_opt=annot=[@@deriving show { with_path = false }, eq]"
+   --ocaml_out=.
+   %{proto})))

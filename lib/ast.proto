@@ -1,0 +1,179 @@
+syntax = "proto2";
+
+message Program {
+  repeated Module modules = 1;
+}
+
+message Module {
+  required string name = 1;
+  required SBlock block = 2;
+}
+
+message Position {
+  required string fname = 1;
+  required int32 lnum = 2;
+  required int32 bol = 3;
+  required int32 cnum = 4;
+}
+
+message Type {
+  required Position position = 1;
+  oneof node {
+    Void TBool = 2;
+    int32 TInt = 3;
+    int32 TUint = 4;
+    int32 TFloat = 5;
+    TArray TArray = 6;
+    TFn TFn = 7;
+    string Named = 8;
+    Type TSlice = 9;
+    Void TString = 10;
+    Type Reference = 11;
+    TStruct TStruct = 12;
+    Void TVoid = 13;
+  }
+}
+
+message Statement {
+  required Position position = 1;
+  oneof node {
+    SBlock Block = 2;
+    Expression Return = 3;
+    SType Type = 4;
+    SStruct Struct = 5;
+    SAssign Assign = 6;
+    SLet Let = 7;
+  }
+}
+
+message Expression {
+  required Position position = 1;
+  oneof node {
+    bool Bool = 2;
+    float Float = 3;
+    int64 Int = 4;
+    EBinop Add = 5;
+    EBinop Sub = 6;
+    EBinop Mul = 7;
+    EBinop Div = 8;
+    EBinop Mod = 9;
+    EBinop Pow = 10;
+    EBinop Eq = 11;
+    EBinop Ne = 12;
+    EBinop Lt = 13;
+    EBinop Lte = 14;
+    EBinop Gt = 15;
+    EBinop Gte = 16;
+    EArray Array = 17;
+    ECall Call = 19;
+    string String = 20;
+    string Extern = 21;
+    ESlice Slice = 22;
+    EVar Reference = 23;
+    EStruct Struct = 24;
+    EVar Dereference = 25;
+    EVar Var = 26;
+    EFn Fn = 27;
+    Void Nil = 28;
+  }
+}
+
+message EBinop {
+  required Expression l = 1;
+  required Expression r = 2;
+}
+
+message EVar {
+  required string name = 1;
+  optional Type ty = 2;
+  optional Expression value = 3;
+}
+
+message EArray {
+  repeated Expression items = 1;
+  optional Type ty = 2;
+}
+
+message EFn {
+  required SBlock block = 1;
+  optional Type ty = 2;
+  repeated Param params = 3;
+}
+
+message ECall {
+  required string name = 1;
+  repeated Expression params = 2;
+  optional EFn fn = 3;
+}
+
+message ESlice {
+  required int64 cap = 1;
+  required int64 size = 2;
+  repeated Expression items = 3;
+}
+
+message EStruct {
+  repeated StructValue values = 1;
+  optional string name = 2;
+}
+
+message Void {}
+
+message Param {
+  required string name = 1;
+  required Type ty = 2;
+}
+
+message SLet {
+  required string name = 1;
+  optional Type ty = 2;
+  required Expression value = 3;
+}
+
+message SType {
+  required string name = 1;
+  required Type ty = 2;
+}
+
+message SBlock {
+  repeated Statement statements = 1;
+  optional Type ty = 2;
+}
+
+message SStruct {
+  repeated StructField fields = 1;
+  required string name = 2;
+}
+
+message SAssign {
+  required string name = 1;
+  required Expression value = 2;
+}
+
+message TArray {
+  required Type ty = 1;
+  optional int32 size = 2;
+}
+
+message TFn {
+  repeated Type params = 1;
+  required Type ty = 2;
+  optional string name = 3;
+}
+
+message TStruct {
+  repeated StructField fields = 1;
+  required string name = 2;
+}
+
+message StructField {
+  required string name = 1;
+  required Type ty = 2;
+}
+
+message StructValue {
+  required string name = 1;
+  optional Type ty = 2;
+  required Expression value = 3;
+}
+
