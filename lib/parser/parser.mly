@@ -1,6 +1,6 @@
 %{
-  open Ast
-  open Utils
+open Ast
+open Utils
 %}
 
 %token <int>    INT
@@ -41,7 +41,7 @@ statement:
   | declaration_type        { $1 }
   | block                   { mk_stmt $startpos (`Block $1) }
   | RETURN expr=expr        { mk_stmt $startpos (`Return expr) }
-  | e=expr_call             { mk_stmt $startpos (`Let { name="_"; ty=None; value=e }) }
+  | e=expr_call             { mk_stmt $startpos (`Let { name="_"; ty=Resolver.TypeResolver.of_expr e; value=e }) }
   | name=path EQ value=expr { mk_stmt $startpos (`Assign { name = String.concat "." name; value }) }
 
 types:
@@ -70,8 +70,8 @@ types:
   | type_array { $1 }
 
 declaration_variable:
-  | name=IDENT COLON EQ value=expr                      { mk_stmt $startpos ( `Let { name; ty=None; value } ) }
-  | name=IDENT COLON ty=types EQ value=expr     { mk_stmt $startpos ( `Let { name; ty=Some(ty); value } ) }
+  | name=IDENT COLON EQ value=expr              { mk_stmt $startpos ( `Let { name; ty=Resolver.TypeResolver.of_expr value; value } ) }
+  | name=IDENT COLON ty=types EQ value=expr     { mk_stmt $startpos ( `Let { name; ty; value } ) }
 
 newlines:
   | NEWLINE+                   { () }

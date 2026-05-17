@@ -8,17 +8,19 @@ let cases =
     test_case "empty" `Quick (fun () ->
         let code = "" in
         check_raises "error on empty" (Errors.Error "main:1:0: syntax error")
-          (fun () -> ignore (Resolver.resolve code)));
+          (fun () -> ignore (Lexer.resolve code)));
     test_case "simple" `Quick (fun () ->
         let code = "x := () void {}" in
-        let m = code |> Resolver.resolve |> List.hd in
+        let m = code |> Lexer.resolve |> List.hd in
         check Mocks.stmt_testable "name is x with type int and value none"
           (List.hd m.block.statements)
           (Mocks.mk_stmt
           @@ `Let
                {
                  name = "x";
-                 ty = None;
+                 ty =
+                   Mocks.mk_types
+                     (`TFn { params = []; ty = Mocks.t_void; name = None });
                  value =
                    Mocks.mk_expr
                    @@ `Fn
@@ -30,14 +32,21 @@ let cases =
                }));
     test_case "param" `Quick (fun () ->
         let code = "x := (a int) void {}" in
-        let m = code |> Resolver.resolve |> List.hd in
-        check Mocks.stmt_testable "name is x with type int and value none"
+        let m = code |> Lexer.resolve |> List.hd in
+        check Mocks.stmt_testable "name is x, type is void, params are (a int)"
           (List.hd m.block.statements)
           (Mocks.mk_stmt
           @@ `Let
                {
                  name = "x";
-                 ty = None;
+                 ty =
+                   Mocks.mk_types
+                     (`TFn
+                        {
+                          params = [ Mocks.mk_types (`TInt 32) ];
+                          ty = Mocks.t_void;
+                          name = None;
+                        });
                  value =
                    Mocks.mk_expr
                    @@ `Fn
@@ -50,14 +59,25 @@ let cases =
                }));
     test_case "params" `Quick (fun () ->
         let code = "x := (a int, b int) void {}" in
-        let m = code |> Resolver.resolve |> List.hd in
+        let m = code |> Lexer.resolve |> List.hd in
         check Mocks.stmt_testable "name is x with type int and value none"
           (List.hd m.block.statements)
           (Mocks.mk_stmt
           @@ `Let
                {
                  name = "x";
-                 ty = None;
+                 ty =
+                   Mocks.mk_types
+                     (`TFn
+                        {
+                          params =
+                            [
+                              Mocks.mk_types (`TInt 32);
+                              Mocks.mk_types (`TInt 32);
+                            ];
+                          ty = Mocks.t_void;
+                          name = None;
+                        });
                  value =
                    Mocks.mk_expr
                    @@ `Fn
@@ -73,14 +93,21 @@ let cases =
                }));
     test_case "return" `Quick (fun () ->
         let code = "x := () int { return 10 }" in
-        let m = code |> Resolver.resolve |> List.hd in
+        let m = code |> Lexer.resolve |> List.hd in
         check Mocks.stmt_testable "name is x with type int and value none"
           (List.hd m.block.statements)
           (Mocks.mk_stmt
           @@ `Let
                {
                  name = "x";
-                 ty = None;
+                 ty =
+                   Mocks.mk_types
+                     (`TFn
+                        {
+                          params = [];
+                          ty = Mocks.mk_types (`TInt 32);
+                          name = None;
+                        });
                  value =
                    Mocks.mk_expr
                    @@ `Fn
@@ -99,14 +126,21 @@ let cases =
                }));
     test_case "return auto void" `Quick (fun () ->
         let code = "x := (a int) {}" in
-        let m = code |> Resolver.resolve |> List.hd in
+        let m = code |> Lexer.resolve |> List.hd in
         check Mocks.stmt_testable "name is x with type int and value none"
           (List.hd m.block.statements)
           (Mocks.mk_stmt
           @@ `Let
                {
                  name = "x";
-                 ty = None;
+                 ty =
+                   Mocks.mk_types
+                     (`TFn
+                        {
+                          params = [ Mocks.mk_types (`TInt 32) ];
+                          ty = Mocks.t_void;
+                          name = None;
+                        });
                  value =
                    Mocks.mk_expr
                      (`Fn
@@ -119,14 +153,16 @@ let cases =
                }));
     test_case "return auto type" `Quick (fun () ->
         let code = "x := () { return 10 }" in
-        let m = code |> Resolver.resolve |> List.hd in
+        let m = code |> Lexer.resolve |> List.hd in
         check Mocks.stmt_testable "name is x with type int and value none"
           (List.hd m.block.statements)
           (Mocks.mk_stmt
           @@ `Let
                {
                  name = "x";
-                 ty = None;
+                 ty =
+                   Mocks.mk_types
+                     (`TFn { params = []; ty = Mocks.t_void; name = None });
                  value =
                    Mocks.mk_expr
                    @@ `Fn

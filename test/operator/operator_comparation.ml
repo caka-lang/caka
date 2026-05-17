@@ -7,14 +7,14 @@ let cases =
   [
     test_case "EQ" `Quick (fun () ->
         let code = "x := 1 == 1" in
-        let m = code |> Resolver.resolve |> List.hd in
+        let m = code |> Lexer.resolve |> List.hd in
         check Mocks.stmt_testable "name is x with type int and value none"
           (List.hd m.block.statements)
           (mk_stmt Lexing.dummy_pos
              (`Let
                 {
                   name = "x";
-                  ty = None;
+                  ty = Mocks.mk_types (`TBool ());
                   value =
                     Mocks.mk_expr
                     @@ `Eq
@@ -25,14 +25,14 @@ let cases =
                 })));
     test_case "NE" `Quick (fun () ->
         let code = "x := 1 != 1" in
-        let m = code |> Resolver.resolve |> List.hd in
+        let m = code |> Lexer.resolve |> List.hd in
         check Mocks.stmt_testable "name is x with type int and value none"
           (List.hd m.block.statements)
           (Mocks.mk_stmt
           @@ `Let
                {
                  name = "x";
-                 ty = None;
+                 ty = Mocks.mk_types (`TBool ());
                  value =
                    Mocks.mk_expr
                    @@ `Ne
@@ -43,14 +43,14 @@ let cases =
                }));
     test_case "LT" `Quick (fun () ->
         let code = "x := 1 < 1" in
-        let m = code |> Resolver.resolve |> List.hd in
+        let m = code |> Lexer.resolve |> List.hd in
         check Mocks.stmt_testable "name is x with type int and value none"
           (List.hd m.block.statements)
           (mk_stmt Lexing.dummy_pos
              (`Let
                 {
                   name = "x";
-                  ty = None;
+                  ty = Mocks.mk_types (`TBool ());
                   value =
                     Mocks.mk_expr
                     @@ `Lt
@@ -61,14 +61,14 @@ let cases =
                 })));
     test_case "LTE" `Quick (fun () ->
         let code = "x := 1 <= 1" in
-        let m = code |> Resolver.resolve |> List.hd in
+        let m = code |> Lexer.resolve |> List.hd in
         check Mocks.stmt_testable "name is x with type int and value none"
           (List.hd m.block.statements)
           (mk_stmt Lexing.dummy_pos
              (`Let
                 {
                   name = "x";
-                  ty = None;
+                  ty = Mocks.mk_types (`TBool ());
                   value =
                     Mocks.mk_expr
                     @@ `Lte
@@ -79,14 +79,14 @@ let cases =
                 })));
     test_case "GT" `Quick (fun () ->
         let code = "x := 1 > 1" in
-        let m = code |> Resolver.resolve |> List.hd in
+        let m = code |> Lexer.resolve |> List.hd in
         check Mocks.stmt_testable "name is x with type int and value none"
           (List.hd m.block.statements)
           (mk_stmt Lexing.dummy_pos
              (`Let
                 {
                   name = "x";
-                  ty = None;
+                  ty = Mocks.mk_types (`TBool ());
                   value =
                     Mocks.mk_expr
                       (`Gt
@@ -97,14 +97,14 @@ let cases =
                 })));
     test_case "GTE" `Quick (fun () ->
         let code = "x := 1 >= 1" in
-        let m = code |> Resolver.resolve |> List.hd in
+        let m = code |> Lexer.resolve |> List.hd in
         check Mocks.stmt_testable "name is x with type int and value none"
           (List.hd m.block.statements)
           (mk_stmt Lexing.dummy_pos
              (`Let
                 {
                   name = "x";
-                  ty = None;
+                  ty = Mocks.mk_types (`TBool ());
                   value =
                     Mocks.mk_expr
                     @@ `Gte

@@ -5,6 +5,7 @@ let mk_position = mk_position Lexing.dummy_pos
 let mk_types node = mk_types Lexing.dummy_pos node
 let mk_expr node = mk_expr Lexing.dummy_pos node
 let mk_stmt node = mk_stmt Lexing.dummy_pos node
+let t_void = Type.make ~position:mk_position ~node:(`TVoid ()) ()
 
 module Clean = struct
   let rec typ (ty : Type.t) : Type.t =
@@ -70,7 +71,7 @@ module Clean = struct
   and stmt (s : Statement.t) : Statement.t =
     let node =
       match s.node with
-      | `Let l -> `Let { l with ty = Option.map typ l.ty; value = expr l.value }
+      | `Let l -> `Let { l with ty = typ l.ty; value = expr l.value }
       | `Return r -> `Return (expr r)
       | `Block b ->
           let bb : SBlock.t =
@@ -81,7 +82,6 @@ module Clean = struct
       | o -> o
     in
     let s : Statement.t = { node; position = mk_position } in
-    print_endline (Statement.show s);
     s
 end
 

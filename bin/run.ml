@@ -14,7 +14,7 @@ let write file content =
 let execute () =
   let f = read "./main.ck" in
   let code = f in
-  let prog = Resolver.resolve code in
+  let prog = Lexer.resolve code in
   let generated =
     List.map
       (fun m ->

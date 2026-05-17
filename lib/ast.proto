@@ -126,7 +126,7 @@ message Param {
 
 message SLet {
   required string name = 1;
-  optional Type ty = 2;
+  required Type ty = 2;
   required Expression value = 3;
 }
 

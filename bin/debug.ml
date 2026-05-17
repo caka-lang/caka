@@ -10,7 +10,7 @@ type debug_type = AST | IR
 let execute ty =
   let f = read "./main.ck" in
   let code = f in
-  let prog = Resolver.resolve code in
+  let prog = Lexer.resolve code in
   match ty with
   | Some AST -> print_endline @@ Ast.Program.show prog
   | _ ->

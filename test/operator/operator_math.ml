@@ -6,15 +6,15 @@ open Caka_parser.Utils
 let cases =
   [
     test_case "plus" `Quick (fun () ->
-        let code = "x : int = 1 + 1" in
-        let m = code |> Resolver.resolve |> List.hd in
+        let code = "x := 1 + 1" in
+        let m = code |> Lexer.resolve |> List.hd in
         check Mocks.stmt_testable "name is x with type int and value none"
           (List.hd m.block.statements)
           (Mocks.mk_stmt
           @@ `Let
                {
                  name = "x";
-                 ty = Some (Mocks.mk_types (`TInt 32));
+                 ty = Mocks.mk_types (`TInt 32);
                  value =
                    Mocks.mk_expr
                    @@ `Add
@@ -24,15 +24,15 @@ let cases =
                         };
                }));
     test_case "minus" `Quick (fun () ->
-        let code = "x : int = 1 - 1" in
-        let m = code |> Resolver.resolve |> List.hd in
+        let code = "x := 1 - 1" in
+        let m = code |> Lexer.resolve |> List.hd in
         check Mocks.stmt_testable "name is x with type int and value none"
           (List.hd m.block.statements)
           (Mocks.mk_stmt
           @@ `Let
                {
                  name = "x";
-                 ty = Some (Mocks.mk_types (`TInt 32));
+                 ty = Mocks.mk_types (`TInt 32);
                  value =
                    Mocks.mk_expr
                    @@ `Sub
@@ -42,15 +42,15 @@ let cases =
                         };
                }));
     test_case "div" `Quick (fun () ->
-        let code = "x : float = 1 / 2" in
-        let m = code |> Resolver.resolve |> List.hd in
+        let code = "x := 1 / 2" in
+        let m = code |> Lexer.resolve |> List.hd in
         check Mocks.stmt_testable "name is x with type int and value none"
           (List.hd m.block.statements)
           (Mocks.mk_stmt
           @@ `Let
                {
                  name = "x";
-                 ty = Some (Mocks.mk_types (`TFloat 64));
+                 ty = Mocks.mk_types (`TFloat 64);
                  value =
                    Mocks.mk_expr
                    @@ `Div
@@ -60,15 +60,15 @@ let cases =
                         };
                }));
     test_case "mul" `Quick (fun () ->
-        let code = "x : int = 1 * 1" in
-        let m = code |> Resolver.resolve |> List.hd in
+        let code = "x := 1 * 1" in
+        let m = code |> Lexer.resolve |> List.hd in
         check Mocks.stmt_testable "name is x with type int and value none"
           (List.hd m.block.statements)
           (Mocks.mk_stmt
           @@ `Let
                {
                  name = "x";
-                 ty = Some (Mocks.mk_types (`TInt 32));
+                 ty = Mocks.mk_types (`TInt 32);
                  value =
                    Mocks.mk_expr
                    @@ `Mul
@@ -78,15 +78,15 @@ let cases =
                         };
                }));
     test_case "modulus" `Quick (fun () ->
-        let code = "x : int = 1 % 1" in
-        let m = code |> Resolver.resolve |> List.hd in
+        let code = "x := 1 % 1" in
+        let m = code |> Lexer.resolve |> List.hd in
         check Mocks.stmt_testable "name is x with type int and value none"
           (List.hd m.block.statements)
           (Mocks.mk_stmt
           @@ `Let
                {
                  name = "x";
-                 ty = Some (Mocks.mk_types (`TInt 32));
+                 ty = Mocks.mk_types (`TInt 32);
                  value =
                    Mocks.mk_expr
                    @@ `Mod
@@ -96,15 +96,15 @@ let cases =
                         };
                }));
     test_case "pow" `Quick (fun () ->
-        let code = "x : int = 1 ^ 1" in
-        let m = code |> Resolver.resolve |> List.hd in
+        let code = "x := 1 ^ 1" in
+        let m = code |> Lexer.resolve |> List.hd in
         check Mocks.stmt_testable "name is x with type int and value none"
           (List.hd m.block.statements)
           (Mocks.mk_stmt
           @@ `Let
                {
                  name = "x";
-                 ty = Some (Mocks.mk_types (`TInt 32));
+                 ty = Mocks.mk_types (`TInt 32);
                  value =
                    Mocks.mk_expr
                    @@ `Pow
@@ -114,15 +114,15 @@ let cases =
                         };
                }));
     test_case "nested plus minus" `Quick (fun () ->
-        let code = "x : int = (1 + 2) - (1 + 2)" in
-        let m = code |> Resolver.resolve |> List.hd in
+        let code = "x := (1 + 2) - (1 + 2)" in
+        let m = code |> Lexer.resolve |> List.hd in
         check Mocks.stmt_testable "name is x with type int and value none"
           (List.hd m.block.statements)
           (Mocks.mk_stmt
           @@ `Let
                {
                  name = "x";
-                 ty = Some (Mocks.mk_types (`TInt 32));
+                 ty = Mocks.mk_types (`TInt 32);
                  value =
                    Mocks.mk_expr
                    @@ `Sub
@@ -144,15 +144,15 @@ let cases =
                         };
                }));
     test_case "nested div mul mod pow" `Quick (fun () ->
-        let code = "x : int = (1 % 2) * (1 % 2)" in
-        let m = code |> Resolver.resolve |> List.hd in
+        let code = "x := (1 % 2) * (1 % 2)" in
+        let m = code |> Lexer.resolve |> List.hd in
         check Mocks.stmt_testable "name is x with type int and value none"
           (List.hd m.block.statements)
           (Mocks.mk_stmt
           @@ `Let
                {
                  name = "x";
-                 ty = Some (Mocks.mk_types (`TInt 32));
+                 ty = Mocks.mk_types (`TInt 32);
                  value =
                    Mocks.mk_expr
                    @@ `Mul
@@ -174,15 +174,15 @@ let cases =
                         };
                }));
     test_case "nested plus minus div mul mod pow" `Quick (fun () ->
-        let code = "x : int = (1 % 2) + (4 - 2) * (1 % 2)" in
-        let m = code |> Resolver.resolve |> List.hd in
+        let code = "x := (1 % 2) + (4 - 2) * (1 % 2)" in
+        let m = code |> Lexer.resolve |> List.hd in
         check Mocks.stmt_testable "name is x with type int and value none"
           (List.hd m.block.statements)
           (Mocks.mk_stmt
           @@ `Let
                {
                  name = "x";
-                 ty = Some (Mocks.mk_types (`TInt 32));
+                 ty = Mocks.mk_types (`TInt 32);
                  value =
                    Mocks.mk_expr
                    @@ `Add
