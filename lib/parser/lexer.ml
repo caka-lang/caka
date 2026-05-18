@@ -60,6 +60,7 @@ let rec token buf =
   | ">" -> GT
   | ">=" -> GTE
   | "nil" -> NIL
+  | "mut" -> MUT
   | "extern" -> EXTERN
   | "return" -> RETURN
   | "type" -> TYPE

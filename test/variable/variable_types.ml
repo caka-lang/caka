@@ -13,6 +13,7 @@ let cases =
           @@ `Let
                {
                  name = "x";
+                 mut = false;
                  ty = Mocks.mk_types (`TBool ());
                  value = Mocks.mk_expr (`Bool false);
                }));
@@ -25,6 +26,7 @@ let cases =
           @@ `Let
                {
                  name = "x";
+                 mut = false;
                  ty = Mocks.mk_types (`TInt 32);
                  value = Mocks.mk_expr (`Int 0);
                }));
@@ -37,6 +39,7 @@ let cases =
           @@ `Let
                {
                  name = "x";
+                 mut = false;
                  ty = Mocks.mk_types (`TInt 8);
                  value = Mocks.mk_expr (`Int 0);
                }));
@@ -49,6 +52,7 @@ let cases =
           @@ `Let
                {
                  name = "x";
+                 mut = false;
                  ty = Mocks.mk_types (`TInt 16);
                  value = Mocks.mk_expr (`Int 0);
                }));
@@ -61,6 +65,7 @@ let cases =
           @@ `Let
                {
                  name = "x";
+                 mut = false;
                  ty = Mocks.mk_types (`TInt 32);
                  value = Mocks.mk_expr (`Int 0);
                }));
@@ -73,6 +78,7 @@ let cases =
           @@ `Let
                {
                  name = "x";
+                 mut = false;
                  ty = Mocks.mk_types (`TInt 64);
                  value = Mocks.mk_expr (`Int 0);
                }));
@@ -85,6 +91,7 @@ let cases =
           @@ `Let
                {
                  name = "x";
+                 mut = false;
                  ty = Mocks.mk_types (`TInt 128);
                  value = Mocks.mk_expr (`Int 0);
                }));
@@ -97,6 +104,7 @@ let cases =
           @@ `Let
                {
                  name = "x";
+                 mut = false;
                  ty = Mocks.mk_types (`TUint 32);
                  value = Mocks.mk_expr (`Int 0);
                }));
@@ -109,6 +117,7 @@ let cases =
           @@ `Let
                {
                  name = "x";
+                 mut = false;
                  ty = Mocks.mk_types (`TUint 8);
                  value = Mocks.mk_expr (`Int 0);
                }));
@@ -121,6 +130,7 @@ let cases =
           @@ `Let
                {
                  name = "x";
+                 mut = false;
                  ty = Mocks.mk_types (`TUint 16);
                  value = Mocks.mk_expr (`Int 0);
                }));
@@ -133,6 +143,7 @@ let cases =
           @@ `Let
                {
                  name = "x";
+                 mut = false;
                  ty = Mocks.mk_types (`TUint 32);
                  value = Mocks.mk_expr (`Int 0);
                }));
@@ -145,6 +156,7 @@ let cases =
           @@ `Let
                {
                  name = "x";
+                 mut = false;
                  ty = Mocks.mk_types (`TUint 64);
                  value = Mocks.mk_expr (`Int 0);
                }));
@@ -157,6 +169,7 @@ let cases =
           @@ `Let
                {
                  name = "x";
+                 mut = false;
                  ty = Mocks.mk_types (`TUint 128);
                  value = Mocks.mk_expr (`Int 0);
                }));
@@ -169,6 +182,7 @@ let cases =
           @@ `Let
                {
                  name = "x";
+                 mut = false;
                  ty = Mocks.mk_types (`TFloat 64);
                  value = Mocks.mk_expr (`Float 0.0);
                }));
@@ -181,6 +195,7 @@ let cases =
           @@ `Let
                {
                  name = "x";
+                 mut = false;
                  ty = Mocks.mk_types (`TFloat 32);
                  value = Mocks.mk_expr (`Float 0.0);
                }));
@@ -193,6 +208,7 @@ let cases =
           @@ `Let
                {
                  name = "x";
+                 mut = false;
                  ty = Mocks.mk_types (`TFloat 64);
                  value = Mocks.mk_expr (`Float 0.0);
                }));

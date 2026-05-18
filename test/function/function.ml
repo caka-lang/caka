@@ -18,6 +18,7 @@ let cases =
           @@ `Let
                {
                  name = "x";
+                 mut = false;
                  ty =
                    Mocks.mk_types
                      (`TFn { params = []; ty = Mocks.t_void; name = None });
@@ -39,6 +40,7 @@ let cases =
           @@ `Let
                {
                  name = "x";
+                 mut = false;
                  ty =
                    Mocks.mk_types
                      (`TFn
@@ -66,6 +68,7 @@ let cases =
           @@ `Let
                {
                  name = "x";
+                 mut = false;
                  ty =
                    Mocks.mk_types
                      (`TFn
@@ -100,6 +103,7 @@ let cases =
           @@ `Let
                {
                  name = "x";
+                 mut = false;
                  ty =
                    Mocks.mk_types
                      (`TFn
@@ -133,6 +137,7 @@ let cases =
           @@ `Let
                {
                  name = "x";
+                 mut = false;
                  ty =
                    Mocks.mk_types
                      (`TFn
@@ -160,6 +165,7 @@ let cases =
           @@ `Let
                {
                  name = "x";
+                 mut = false;
                  ty =
                    Mocks.mk_types
                      (`TFn { params = []; ty = Mocks.t_void; name = None });

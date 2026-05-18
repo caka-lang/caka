@@ -13,6 +13,7 @@ let cases =
           @@ `Let
                {
                  name = "x";
+                 mut = false;
                  ty =
                    Mocks.mk_types
                      (`TArray { ty = Mocks.mk_types (`TInt 32); size = Some 10 });
@@ -27,6 +28,7 @@ let cases =
           @@ `Let
                {
                  name = "x";
+                 mut = false;
                  ty =
                    Mocks.mk_types
                      (`TArray { ty = Mocks.mk_types (`TInt 32); size = None });

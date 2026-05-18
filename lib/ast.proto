@@ -128,6 +128,7 @@ message SLet {
   required string name = 1;
   required Type ty = 2;
   required Expression value = 3;
+  required bool mut = 4;
 }
 
 message SType {

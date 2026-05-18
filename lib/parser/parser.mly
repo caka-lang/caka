@@ -9,7 +9,7 @@ open Utils
 %token          EOF NEWLINE
 %token          PLUS MINUS STAR SLASH MOD POW LPAREN RPAREN LBRACE RBRACE LBRACKET RBRACKET AMPAND DOT
 %token          EQ COMMA EQEQ NE GT GTE LT LTE COLON
-%token          RETURN TRUE FALSE EXTERN NIL
+%token          RETURN TRUE FALSE EXTERN NIL MUT
 %token          TYPE TVOID TBOOL STRUCT TSTRING
 %token          TINT TINT8 TINT16 TINT32 TINT64 TINT128
 %token          TUINT TUINT8 TUINT16 TUINT32 TUINT64 TUINT128
@@ -41,7 +41,7 @@ statement:
   | declaration_type        { $1 }
   | block                   { mk_stmt $startpos (`Block $1) }
   | RETURN expr=expr        { mk_stmt $startpos (`Return expr) }
-  | e=expr_call             { mk_stmt $startpos (`Let { name="_"; ty=Resolver.TypeResolver.of_expr e; value=e }) }
+  | e=expr_call             { mk_stmt $startpos (`Let { name="_"; ty=Resolver.TypeResolver.of_expr e; value=e; mut=false }) }
   | name=path EQ value=expr { mk_stmt $startpos (`Assign { name = String.concat "." name; value }) }
 
 types:
@@ -70,8 +70,11 @@ types:
   | type_array { $1 }
 
 declaration_variable:
-  | name=IDENT COLON EQ value=expr              { mk_stmt $startpos ( `Let { name; ty=Resolver.TypeResolver.of_expr value; value } ) }
-  | name=IDENT COLON ty=types EQ value=expr     { mk_stmt $startpos ( `Let { name; ty; value } ) }
+  | name=IDENT COLON EQ value=expr              { mk_stmt $startpos ( `Let { name; ty=Resolver.TypeResolver.of_expr value; value; mut=false } ) }
+  | name=IDENT COLON ty=types EQ value=expr     { mk_stmt $startpos ( `Let { name; ty; value; mut=false } ) }
+  | name=IDENT COLON MUT EQ value=expr     { mk_stmt $startpos ( `Let { name; ty=Resolver.TypeResolver.of_expr value; value; mut=true } ) }
+  | name=IDENT COLON MUT ty=types     { mk_stmt $startpos ( `Let { name; ty; value=Resolver.TypeResolver.default_value ty; mut=true } ) }
+  | name=IDENT COLON MUT ty=types EQ value=expr     { mk_stmt $startpos ( `Let { name; ty; value; mut=true } ) }
 
 newlines:
   | NEWLINE+                   { () }

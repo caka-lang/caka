@@ -13,44 +13,9 @@ let cases =
           @@ `Let
                {
                  name = "x";
+                 mut = false;
                  ty = Mocks.mk_types (`TInt 32);
                  value = Mocks.mk_expr (`Int 0);
-               }));
-    test_case "let uint" `Quick (fun () ->
-        let code = "x : uint = 0" in
-        let m = code |> Lexer.resolve |> List.hd in
-        check Mocks.stmt_testable "name is x, type is uint, value is 0"
-          (List.hd m.block.statements)
-          (Mocks.mk_stmt
-          @@ `Let
-               {
-                 name = "x";
-                 ty = Mocks.mk_types (`TUint 32);
-                 value = Mocks.mk_expr (`Int 0);
-               }));
-    test_case "let float" `Quick (fun () ->
-        let code = "x : float = 0.0" in
-        let m = code |> Lexer.resolve |> List.hd in
-        check Mocks.stmt_testable "name is x, type is float, value is 0.0"
-          (List.hd m.block.statements)
-          (Mocks.mk_stmt
-          @@ `Let
-               {
-                 name = "x";
-                 ty = Mocks.mk_types (`TFloat 64);
-                 value = Mocks.mk_expr (`Float 0.0);
-               }));
-    test_case "bool" `Quick (fun () ->
-        let code = "x : bool = false" in
-        let m = code |> Lexer.resolve |> List.hd in
-        check Mocks.stmt_testable "name is x, type is bool, value is false"
-          (List.hd m.block.statements)
-          (Mocks.mk_stmt
-          @@ `Let
-               {
-                 name = "x";
-                 ty = Mocks.mk_types (`TBool ());
-                 value = Mocks.mk_expr (`Bool false);
                }));
     test_case "let auto" `Quick (fun () ->
         let code = "x := 0" in
@@ -61,26 +26,48 @@ let cases =
           @@ `Let
                {
                  name = "x";
+                 mut = false;
                  ty = Mocks.mk_types (`TInt 32);
                  value = Mocks.mk_expr (`Int 0);
                }));
-    test_case "let and math" `Quick (fun () ->
-        let code = "x := 1 + 2" in
+    test_case "let mut int" `Quick (fun () ->
+        let code = "x: mut int = 0" in
         let m = code |> Lexer.resolve |> List.hd in
-        check Mocks.stmt_testable "name is x, type is None, value is (add 1 2)"
+        check Mocks.stmt_testable "name is x, type is mut int, value is 0"
           (List.hd m.block.statements)
           (Mocks.mk_stmt
           @@ `Let
                {
                  name = "x";
+                 mut = true;
                  ty = Mocks.mk_types (`TInt 32);
-                 value =
-                   Mocks.mk_expr
-                   @@ `Add
-                        {
-                          l = Mocks.mk_expr (`Int 1);
-                          r = Mocks.mk_expr (`Int 2);
-                        };
+                 value = Mocks.mk_expr (`Int 0);
+               }));
+    test_case "let mut auto" `Quick (fun () ->
+        let code = "x: mut = 0" in
+        let m = code |> Lexer.resolve |> List.hd in
+        check Mocks.stmt_testable "name is x, type is mut None, value is 0"
+          (List.hd m.block.statements)
+          (Mocks.mk_stmt
+          @@ `Let
+               {
+                 name = "x";
+                 mut = true;
+                 ty = Mocks.mk_types (`TInt 32);
+                 value = Mocks.mk_expr (`Int 0);
+               }));
+    test_case "let mut default" `Quick (fun () ->
+        let code = "x: mut int" in
+        let m = code |> Lexer.resolve |> List.hd in
+        check Mocks.stmt_testable "name is x, type is mut int, value is None"
+          (List.hd m.block.statements)
+          (Mocks.mk_stmt
+          @@ `Let
+               {
+                 name = "x";
+                 mut = true;
+                 ty = Mocks.mk_types (`TInt 32);
+                 value = Mocks.mk_expr (`Int 0);
                }));
     test_case "let true or false" `Quick (fun () ->
         let code = "x := true\ny := false" in
@@ -94,12 +81,14 @@ let cases =
             @@ `Let
                  {
                    name = "x";
+                   mut = false;
                    ty = Mocks.mk_types (`TBool ());
                    value = Mocks.mk_expr (`Bool true);
                  };
             Mocks.mk_stmt
             @@ `Let
                  {
+                   mut = false;
                    name = "y";
                    ty = Mocks.mk_types (`TBool ());
                    value = Mocks.mk_expr (`Bool false);

@@ -14,6 +14,7 @@ let cases =
           @@ `Let
                {
                  name = "x";
+                 mut = false;
                  ty = Mocks.mk_types (`TInt 32);
                  value =
                    Mocks.mk_expr
@@ -32,6 +33,7 @@ let cases =
           @@ `Let
                {
                  name = "x";
+                 mut = false;
                  ty = Mocks.mk_types (`TInt 32);
                  value =
                    Mocks.mk_expr
@@ -50,6 +52,7 @@ let cases =
           @@ `Let
                {
                  name = "x";
+                 mut = false;
                  ty = Mocks.mk_types (`TFloat 64);
                  value =
                    Mocks.mk_expr
@@ -68,6 +71,7 @@ let cases =
           @@ `Let
                {
                  name = "x";
+                 mut = false;
                  ty = Mocks.mk_types (`TInt 32);
                  value =
                    Mocks.mk_expr
@@ -86,6 +90,7 @@ let cases =
           @@ `Let
                {
                  name = "x";
+                 mut = false;
                  ty = Mocks.mk_types (`TInt 32);
                  value =
                    Mocks.mk_expr
@@ -104,6 +109,7 @@ let cases =
           @@ `Let
                {
                  name = "x";
+                 mut = false;
                  ty = Mocks.mk_types (`TInt 32);
                  value =
                    Mocks.mk_expr
@@ -122,6 +128,7 @@ let cases =
           @@ `Let
                {
                  name = "x";
+                 mut = false;
                  ty = Mocks.mk_types (`TInt 32);
                  value =
                    Mocks.mk_expr
@@ -152,6 +159,7 @@ let cases =
           @@ `Let
                {
                  name = "x";
+                 mut = false;
                  ty = Mocks.mk_types (`TInt 32);
                  value =
                    Mocks.mk_expr
@@ -182,6 +190,7 @@ let cases =
           @@ `Let
                {
                  name = "x";
+                 mut = false;
                  ty = Mocks.mk_types (`TInt 32);
                  value =
                    Mocks.mk_expr

@@ -14,6 +14,7 @@ let cases =
           @@ `Let
                {
                  name = "x";
+                 mut = false;
                  ty =
                    Mocks.mk_types
                    @@ `TFn

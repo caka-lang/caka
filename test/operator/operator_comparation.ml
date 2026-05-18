@@ -14,6 +14,7 @@ let cases =
              (`Let
                 {
                   name = "x";
+                  mut = false;
                   ty = Mocks.mk_types (`TBool ());
                   value =
                     Mocks.mk_expr
@@ -32,6 +33,7 @@ let cases =
           @@ `Let
                {
                  name = "x";
+                 mut = false;
                  ty = Mocks.mk_types (`TBool ());
                  value =
                    Mocks.mk_expr
@@ -50,6 +52,7 @@ let cases =
              (`Let
                 {
                   name = "x";
+                  mut = false;
                   ty = Mocks.mk_types (`TBool ());
                   value =
                     Mocks.mk_expr
@@ -68,6 +71,7 @@ let cases =
              (`Let
                 {
                   name = "x";
+                  mut = false;
                   ty = Mocks.mk_types (`TBool ());
                   value =
                     Mocks.mk_expr
@@ -86,6 +90,7 @@ let cases =
              (`Let
                 {
                   name = "x";
+                  mut = false;
                   ty = Mocks.mk_types (`TBool ());
                   value =
                     Mocks.mk_expr
@@ -104,6 +109,7 @@ let cases =
              (`Let
                 {
                   name = "x";
+                  mut = false;
                   ty = Mocks.mk_types (`TBool ());
                   value =
                     Mocks.mk_expr

@@ -29,3 +29,9 @@ let rec of_expr (e : Expression.t) : Type.t =
              })
         ()
   | _ -> Utils.t_void ~position
+
+and default_value (t : Type.t) : Expression.t =
+  let position = t.position in
+  match t.node with
+  | `TInt i -> Expression.make ~position ~node:(`Int 0) ()
+  | _ -> Expression.make ~position ~node:(`Nil ()) ()
