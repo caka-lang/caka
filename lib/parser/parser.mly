@@ -66,8 +66,9 @@ types:
   | LPAREN RPAREN ty=types { mk_types $startpos (`TFn {params=[]; ty; name=None}) }
   | LPAREN params=separated_nonempty_list(COMMA, types) RPAREN ty=types { mk_types $startpos (`TFn {params; ty; name=None}) }
   | IDENT { mk_types $startpos (`Named $1) }
-  | ty=types STAR { mk_types $startpos (`Reference ty) }
+  | STAR ty=types { mk_types $startpos (`Reference ty) }
   | type_array { $1 }
+  | type_struct { $1 }
 
 declaration_variable:
   | name=IDENT COLON EQ value=expr              { mk_stmt $startpos ( `Let { name; ty=Resolver.TypeResolver.of_expr value; value; mut=false } ) }
@@ -116,6 +117,10 @@ array:
   | LBRACKET RBRACKET { mk_expr $startpos (`Array {ty=None; items=[]}) }
   | LBRACKET items=separated_nonempty_list(COMMA, expr) RBRACKET { mk_expr $startpos (`Array {ty=None; items}) }
 
+type_struct:
+  | STRUCT LBRACE option(newlines) RBRACE { mk_types $startpos (`TStruct {fields=[]; name=None}) }
+  | STRUCT LBRACE option(newlines) fields=struct_fields option(newlines) RBRACE { mk_types $startpos (`TStruct {fields; name=None}) }
+
 declaration_function:
   | LPAREN RPAREN b=block     
       { mk_expr $startpos (`Fn { ty=None; params=[]; block=b }) }
@@ -127,7 +132,7 @@ declaration_function:
       { mk_expr $startpos (`Fn { ty=Some(ty); params=p; block=b }) }
 
 function_param:
-  | n=IDENT ty=types    { let p: Param.t = {name=n; ty} in p }
+  | n=IDENT COLON ty=types    { let p: Param.t = {name=n; ty} in p }
 
 expr_call:
   | name=IDENT LPAREN RPAREN                                                 { mk_expr $startpos (`Call { name; params=[]; fn=None }) }
@@ -149,7 +154,7 @@ struct_fields:
   | struct_field      { [ $1 ] }
   | struct_fields option(newlines) struct_field      { $1 @ [ $3 ] }
 struct_field:
-  | ty=types name=IDENT COMMA     { let f:StructField.t = {name; ty} in f }
+  | name=IDENT COLON ty=types option(COMMA)     { let f:StructField.t = {name; ty} in f }
 
 expr_struct:
   | LBRACE option(newlines) RBRACE         { mk_expr $startpos (`Struct {name=None; values=[]}) }
@@ -160,7 +165,7 @@ struct_values:
   | struct_value                                    { [ $1 ] }
   | struct_values option(newlines) struct_value      { $1 @ [ $3 ] }
 struct_value:
-  | name=IDENT EQ value=expr option(COMMA)     { let v:StructValue.t = {name; value; ty=None} in v }
+  | name=IDENT EQ value=expr option(COMMA)     { let v:StructValue.t = {name; value; ty=Resolver.TypeResolver.of_expr value} in v }
 
 path:
   | id=IDENT                { [id] }

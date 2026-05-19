@@ -164,7 +164,7 @@ message TFn {
 
 message TStruct {
   repeated StructField fields = 1;
-  required string name = 2;
+  optional string name = 2;
 }
 
 message StructField {
@@ -174,7 +174,7 @@ message StructField {
 
 message StructValue {
   required string name = 1;
-  optional Type ty = 2;
+  required Type ty = 2;
   required Expression value = 3;
 }
 

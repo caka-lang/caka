@@ -32,7 +32,7 @@ let cases =
                         };
                }));
     test_case "param" `Quick (fun () ->
-        let code = "x := (a int) void {}" in
+        let code = "x := (a: int) void {}" in
         let m = code |> Lexer.resolve |> List.hd in
         check Mocks.stmt_testable "name is x, type is void, params are (a int)"
           (List.hd m.block.statements)
@@ -60,7 +60,7 @@ let cases =
                         };
                }));
     test_case "params" `Quick (fun () ->
-        let code = "x := (a int, b int) void {}" in
+        let code = "x := (a: int, b: int) void {}" in
         let m = code |> Lexer.resolve |> List.hd in
         check Mocks.stmt_testable "name is x with type int and value none"
           (List.hd m.block.statements)
@@ -129,7 +129,7 @@ let cases =
                         };
                }));
     test_case "return auto void" `Quick (fun () ->
-        let code = "x := (a int) {}" in
+        let code = "x := (a: int) {}" in
         let m = code |> Lexer.resolve |> List.hd in
         check Mocks.stmt_testable "name is x with type int and value none"
           (List.hd m.block.statements)
