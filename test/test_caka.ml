@@ -13,4 +13,5 @@ let () =
       ("function types", Function_types.cases);
       ("call", Call.cases);
       ("types named", Types_named.cases);
+      ("types struct", Types_struct.cases);
     ]

@@ -185,4 +185,32 @@ let cases =
                               ();
                         };
                }));
+    test_case "generics" `Quick (fun () ->
+        let code = "a := <T>(x: T) {}" in
+        let m = code |> Lexer.resolve |> List.hd in
+        check Mocks.stmt_testable "name is x with type int and value none"
+          (List.hd m.block.statements)
+          (Mocks.mk_stmt
+          @@ `Let
+               {
+                 name = "a";
+                 ty =
+                   Mocks.mk_types
+                   @@ `TFn
+                        {
+                          name = None;
+                          ty = Mocks.mk_types (`TVoid ());
+                          params = [ Mocks.mk_types (`Named "T") ];
+                        };
+                 value =
+                   Mocks.mk_expr
+                   @@ `Fn
+                        {
+                          params =
+                            [ { name = "x"; ty = Mocks.mk_types (`Named "T") } ];
+                          ty = None;
+                          block = SBlock.make ~statements:[] ();
+                        };
+                 mut = false;
+               }));
   ]

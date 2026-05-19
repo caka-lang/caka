@@ -79,6 +79,15 @@ module Clean = struct
           in
           `Block bb
       | `Type t -> `Type { t with ty = typ t.ty }
+      | `Struct s ->
+          `Struct
+            {
+              s with
+              fields =
+                List.map
+                  (fun (sf : StructField.t) -> { sf with ty = typ sf.ty })
+                  s.fields;
+            }
       | o -> o
     in
     let s : Statement.t = { node; position = mk_position } in
